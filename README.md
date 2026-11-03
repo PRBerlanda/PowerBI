@@ -2,7 +2,9 @@
 
 Power BI report built for the **Recruitment & Selection (R&S) team** to manage job requisitions end to end. It tracks openings in progress, filled and cancelled positions, time to hire in **business days** and compliance with the team's **hiring SLA**, alongside headcount, admissions, terminations and turnover.
 
-> This report has no PDF preview in this branch. The numbers it uses do not represent the company's actual figures; the data was filtered and is outdated.
+📄 **Report preview:** [RH - Recrutamento & Seleção.pdf](RH%20-%20Recrutamento%20%26%20Sele%C3%A7%C3%A3o.pdf)
+
+> The numbers shown in the PDF do not represent the company's actual figures. The data was filtered and is outdated.
 
 ---
 
