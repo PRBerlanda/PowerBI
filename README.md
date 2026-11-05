@@ -18,10 +18,10 @@ These applications were built for a large Brazilian company over about two years
 | [`HR-Benefits-and-Remuneration`](https://github.com/PRBerlanda/PowerBI/tree/HR-Benefits-and-Remuneration) | **Benefits & Remuneration** | Health / dental plan adoption and cost, award programs, salary increases |
 | [`HR-Recruitment-and-Selection`](https://github.com/PRBerlanda/PowerBI/tree/HR-Recruitment-and-Selection) | **Recruitment & Selection** | Job openings pipeline, hiring SLA in business days, time to hire, turnover |
 | [`HR-Epidemiological-Profile`](https://github.com/PRBerlanda/PowerBI/tree/HR-Epidemiological-Profile) | **Epidemiological Profile** | Occupational health questionnaires and lab exams: habits, comorbidities, medication, psychosocial risk |
-| [`HR-SESMT-EHS`](https://github.com/PRBerlanda/PowerBI/tree/HR-SESMT-EHS) | **SESMT (EHS): Accidents & Absences** | Work accidents, leaves, medical certificates and ICD analysis; composite model over the shared Fabric dataset |
+| [`HR-SESMT-EHS`](https://github.com/PRBerlanda/PowerBI/tree/HR-SESMT-EHS) | **SESMT (EHS): Accidents & Absences** | Work accidents, leaves, medical certificates and ICD analysis; originally a composite model over the shared Fabric dataset, now a standalone import model |
 | [`HR-SESMT-Safety-Technicians`](https://github.com/PRBerlanda/PowerBI/tree/HR-SESMT-Safety-Technicians) | **SESMT (EHS): Safety Technicians** | Route coverage, visit compliance and checklist scores per technician and unit |
 
-> **About the data:** the figures shown in the HR PDFs **do not represent the company's actual numbers**. The data was filtered and is outdated. Some applications were developed directly in Microsoft Fabric workspaces, so not everything is available here.
+> **About the data:** the HR projects run on **fully anonymized, fictitious data**. People, companies, cost centers and sites were replaced with synthetic values (Python *Faker*, pt_BR), codes were renumbered consistently, monetary values were scaled by a random factor and the period was limited to January 2024 – December 2025, so the PDFs **do not represent any real company**. Some applications were developed directly in Microsoft Fabric workspaces, so not everything is available here.
 
 ### Case study (public data)
 
@@ -37,6 +37,7 @@ These applications were built for a large Brazilian company over about two years
 - **DAX:** time intelligence, calculation groups, field parameters, point-in-time headcount, retention, turnover, absenteeism, business-day SLAs, Brazilian labor-law calculations (CLT severance, FGTS, 13th salary, vacation).
 - **Security & governance:** dynamic row-level security by management hierarchy; shared semantic models in Microsoft Fabric; projects saved as **PBIP** (TMDL + PBIR) for version control.
 - **Data integration:** Oracle, Power Platform Dataflows, SharePoint / Excel and Power Query (M).
+- **Data anonymization:** Python pipeline (pandas, *Faker*) that extracts the model data, replaces personal and company information with consistent synthetic values and keeps every relationship intact.
 - **Report design & UX:** menu navigation, bookmarks, drill-through, tooltips, KPI cards with period comparisons, custom themes.
 
 ---
