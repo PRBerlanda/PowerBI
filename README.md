@@ -4,7 +4,7 @@ Power BI report that consolidates the **occupational health questionnaires** ans
 
 📄 **Report preview:** [Epidemiological Profile.pdf](Epidemiological%20Profile.pdf)
 
-> The numbers shown in the PDF do not represent the company's actual figures. The data was filtered and is outdated.
+> **About the data:** this portfolio version runs on **fully anonymized, fictitious data**. Names of employees, dependents, managers and recruiters, tax IDs, e-mails, phone numbers and addresses were replaced with synthetic values generated with the Python *Faker* library (pt_BR). Company, branch, cost center and site names were replaced with fictitious ones (for example, *Grupo Mendonça*). Registration numbers and internal codes were renumbered consistently across tables, monetary values were scaled by a random factor, sensitive attributes were shuffled between records, and the period was limited to **January 2024 – December 2025**. The figures do not represent any real company, and the source files are not included in this repository.
 
 ---
 
@@ -34,7 +34,7 @@ All pages share the same filter bar (cost center, location, appointment type, qu
 | Relationships | 14 |
 | Report pages / visuals | 8 / 337 |
 
-**Modeling approach.** Questionnaires arrive in a long (key/value) format: one row per *person × date × question × answer*. Two sources (`QUESTIONARIO_CENTRAL` and `QUESTIONARIO_MAXIPAS`) are standardized in Power Query and appended into a single fact table, `QUESTIONARIOS`. The BMI is derived in helper queries (`IMC_CENTRAL`, `IMC_MAXIPAS`) and classified by `DESC_IMC`. Each visual filters the fact table to one question (`PERGUNTAS` / `BASE_PERGUNTAS`), so new questions can be added without changing the model.
+**Modeling approach.** Questionnaires arrive in a long (key/value) format: one row per *person × date × question × answer*. Two sources (`QUESTIONARIO_CENTRAL` and `QUESTIONARIO_FARIAS`) are standardized in Power Query and appended into a single fact table, `QUESTIONARIOS`. The BMI is derived in helper queries (`IMC_CENTRAL`, `IMC_FARIAS`) and classified by `DESC_IMC`. Each visual filters the fact table to one question (`PERGUNTAS` / `BASE_PERGUNTAS`), so new questions can be added without changing the model.
 
 Supporting dimensions: `COLABORADORES` (employees), `CARGO` and `HISTORICO_CARGOS` (job at the date of the appointment, built as a DAX calculated table), `CENTRO_CUSTO` (cost center), `EMPRESA` (company), `LOCAL` (location), `FAIXA_ETARIA` (age range), `TIPO_RELATORIO` (report type), `TIPO_QUESTIONARIO` (questionnaire type) and a `DATA` calendar. The exams are a separate fact table (`EXAMES`) loaded from an Excel file on SharePoint.
 
@@ -42,12 +42,16 @@ Supporting dimensions: `COLABORADORES` (employees), `CARGO` and `HISTORICO_CARGO
 
 ## Data sources
 
+Original sources in production:
+
 | Source | Tables |
 |---|---|
 | Oracle data warehouse | Jobs, companies |
 | Power Platform Dataflows | Employees, cost centers, locations, job history, central questionnaire |
 | SharePoint (Excel) | Outsourced clinic questionnaire, lab exams |
 | Embedded tables | Questions, BMI classes, age ranges, report / questionnaire types |
+
+**Portfolio version.** All 19 import queries now read the anonymized CSV files from a local folder defined by the `PastaBaseDados` parameter (Power Query `Csv.Document`, pt-BR culture). The original connection strings were removed from the project.
 
 ---
 
