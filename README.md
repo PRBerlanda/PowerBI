@@ -7,7 +7,7 @@ The semantic model was published to a Microsoft Fabric workspace and reused as a
 📄 **Report preview:** [People Analytics.pdf](People%20Analytics.pdf)
 🗺️ **Semantic model diagrams:** [Semantic Model.pdf](Semantic%20Model.pdf)
 
-> The numbers shown in the PDFs do not represent the company's actual figures. The data was filtered and is outdated.
+> **About the data:** this portfolio version runs on **fully anonymized, fictitious data**. Names of employees, dependents, managers and recruiters, tax IDs, e-mails, phone numbers and addresses were replaced with synthetic values generated with the Python *Faker* library (pt_BR). Company, branch, cost center and site names were replaced with fictitious ones (for example, *Grupo Mendonça*). Registration numbers and internal codes were renumbered consistently across tables, monetary values were scaled by a random factor, sensitive attributes were shuffled between records, and the period was limited to **January 2024 – December 2025**. The figures do not represent any real company, and the source files are not included in this repository.
 
 ---
 
@@ -72,6 +72,8 @@ The `Gestores` (managers) role filters the `RLS` table by the signed-in user's U
 
 ## Data sources
 
+Original sources in production:
+
 | Source | Tables |
 |---|---|
 | Oracle data warehouse (HR / payroll system) | Employees, dependents, jobs, companies, branches, schedules, benefits, work accidents, time clock, job openings |
@@ -79,6 +81,8 @@ The `Gestores` (managers) role filters the `RLS` table by the signed-in user's U
 | SharePoint (Excel) | Lawsuits and lawsuit costs, revenue, payroll event catalog, ICD codes, holidays, cost allocation inputs |
 | Embedded tables / Power Query lists | About 40 small lookups (status codes, gender, generations, severity…) |
 | DAX calculated tables | 36 field parameters, 4 calculation groups, measure table |
+
+**Portfolio version.** All 81 import queries now read the anonymized CSV files from a local folder defined by the `PastaBaseDados` parameter (Power Query `Csv.Document`, pt-BR culture); incremental refresh was removed. The original connection strings were removed from the project.
 
 ---
 
@@ -143,4 +147,4 @@ IF (
 
 ## Tech stack
 
-Power BI Desktop · Microsoft Fabric · Power Query (M) · DAX · Oracle · Power Platform Dataflows · SharePoint / Excel
+Power BI Desktop · Microsoft Fabric · Power Query (M) · DAX · Oracle · Power Platform Dataflows · SharePoint / Excel · Python (data anonymization)
