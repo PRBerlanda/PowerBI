@@ -4,7 +4,7 @@ Power BI report that tracks the field work of the **Occupational Safety Technici
 
 📄 **Report preview:** [SESMT (EHS) - Safety Technicians.pdf](SESMT%20(EHS)%20-%20Safety%20Technicians.pdf)
 
-> The numbers shown in the PDF do not represent the company's actual figures. The data was filtered and is outdated.
+> **About the data:** this portfolio version runs on **fully anonymized, fictitious data**. Names of employees, dependents, managers and recruiters, tax IDs, e-mails, phone numbers and addresses were replaced with synthetic values generated with the Python *Faker* library (pt_BR). Company, branch, cost center and site names were replaced with fictitious ones (for example, *Grupo Mendonça*). Registration numbers and internal codes were renumbered consistently across tables, monetary values were scaled by a random factor, sensitive attributes were shuffled between records, and the period was limited to **January 2024 – December 2025**. The figures do not represent any real company, and the source files are not included in this repository.
 
 ---
 
@@ -37,11 +37,15 @@ Power BI report that tracks the field work of the **Occupational Safety Technici
 
 ## Data sources
 
+Original sources in production:
+
 | Source | Tables |
 |---|---|
 | SharePoint / OneDrive (Excel files, combined with *Folder* helper queries) | Checklists, route assignments, visit schedule, unit categories |
 | Embedded table | Company type |
 | Power Query (derived) | Technicians and units dimensions, built from the fact and route tables |
+
+**Portfolio version.** All 8 import queries now read the anonymized CSV files from a local folder defined by the `PastaBaseDados` parameter (Power Query `Csv.Document`, pt-BR culture); technician and unit names are fictitious. The original connection strings were removed from the project.
 
 ---
 
