@@ -4,9 +4,9 @@ Power BI report for the **SESMT** team (*Serviço Especializado em Segurança e 
 
 📄 **Report preview:** [SESMT (EHS).pdf](SESMT%20(EHS).pdf)
 
-> The numbers shown in the PDF do not represent the company's actual figures. The data was filtered and is outdated.
+> **About the data:** this portfolio version runs on **fully anonymized, fictitious data**. Names of employees, dependents, managers and recruiters, tax IDs, e-mails, phone numbers and addresses were replaced with synthetic values generated with the Python *Faker* library (pt_BR). Company, branch, cost center and site names were replaced with fictitious ones (for example, *Grupo Mendonça*). Registration numbers and internal codes were renumbered consistently across tables, monetary values were scaled by a random factor, sensitive attributes were shuffled between records, and the period was limited to **January 2024 – December 2025**. The figures do not represent any real company, and the source files are not included in this repository.
 
-> ⚠️ **Live connection.** This report does not hold its own data. It is a **composite model** that reads the *RH – Relações Trabalhistas* semantic model published in Microsoft Fabric (see the `HR-People-Analytics` branch) through **DirectQuery for Power BI semantic models**. Since that workspace is no longer available, the PBIP opens without data; the PDF documents how the report looked in production.
+> **Architecture change.** In production this report held no data of its own: it was a **composite model** reading the *RH – Relações Trabalhistas* semantic model published in Microsoft Fabric (see the `HR-People-Analytics` branch) through **DirectQuery for Power BI semantic models**. For this portfolio version the remote connection was replaced, so the PBIP now refreshes on its own from the same anonymized CSV files used by People Analytics.
 
 ---
 
@@ -30,14 +30,16 @@ All pages share a header with navigation arrows and a filter panel.
 
 | Item | Count |
 |---|---|
-| Tables | 73: 61 DirectQuery tables from the shared model, 10 local field parameters and 2 calculation groups |
-| Local measures | 48 |
+| Tables | 73: 60 tables imported from the shared CSV files, 2 calculation groups, 10 field parameters and the measure table (originally 61 DirectQuery tables from the shared model) |
+| Measures | 54 (48 SESMT-specific + 6 brought from the shared model) |
 | Relationships | 72 (13 inactive) |
 | Report pages / visuals | 7 / 208 |
 
-**Architecture.** The report reuses the enterprise HR semantic model instead of duplicating it. It brings in only what it needs (employees, leaves, work accidents, ICD, body part, severity, laterality, causing agent, nature, jobs, cost centers, companies, calendar and so on) and adds:
+**Original architecture.** The report reused the enterprise HR semantic model instead of duplicating it. It brings in only what it needs (employees, leaves, work accidents, ICD, body part, severity, laterality, causing agent, nature, jobs, cost centers, companies, calendar and so on) and adds:
 - a local `Medidas` table with SESMT-specific measures, in the folders **Acidentes** (accidents), **Afastamentos** (leaves) and **Outros** (other);
 - local **field parameters** for the dynamic axes and dynamic table columns.
+
+**Portfolio version.** The 60 shared tables are imported with Power Query from the anonymized CSV files (folder set by the `PastaBaseDados` parameter). The calculated columns and the two calculation groups that lived in the shared model (job SLA and leadership level, management hierarchy levels, RLS levels, `AFASTAMENTOS`, `MÉDIA E TOTAL`) were recreated locally with the same DAX, and the measures the report used from the shared model (average salary by gender, hourly wage and their dependencies) were copied into the local `Medidas` table.
 
 **Measures (selection)**
 - *Accidents:* accident count (current vs. previous year), CATs issued, typical / commuting / disease accidents, light / moderate / severe accidents, causes and body parts.
@@ -64,7 +66,8 @@ CALCULATE (
 
 ## Techniques used
 
-- **Composite model / DirectQuery for Power BI semantic models**: one governed source of truth, extended locally with report-specific measures.
+- **Composite model / DirectQuery for Power BI semantic models** (production): one governed source of truth, extended locally with report-specific measures.
+- Conversion of the composite model into a standalone import model for the portfolio, preserving calculated columns, calculation groups and measures.
 - Field parameters for dynamic axes and configurable detail tables.
 - Period-over-period comparisons (current vs. previous period / year).
 - Consistent page header with navigation and filter panel.
@@ -72,4 +75,4 @@ CALCULATE (
 
 ## Tech stack
 
-Power BI Desktop · Microsoft Fabric (shared semantic model) · DAX
+Power BI Desktop · Microsoft Fabric (shared semantic model, production) · Power Query (M) · DAX
