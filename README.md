@@ -4,7 +4,7 @@ Power BI report that monitors **health and dental plan adoption, employee awards
 
 📄 **Report preview:** [Benefits and Remuneration.pdf](Benefits%20and%20Remuneration.pdf)
 
-> The numbers shown in the PDF do not represent the company's actual figures. The data was filtered and is outdated.
+> **About the data:** this portfolio version runs on **fully anonymized, fictitious data**. Names of employees, dependents, managers and recruiters, tax IDs, e-mails, phone numbers and addresses were replaced with synthetic values generated with the Python *Faker* library (pt_BR). Company, branch, cost center and site names were replaced with fictitious ones (for example, *Grupo Mendonça*). Registration numbers and internal codes were renumbered consistently across tables, monetary values were scaled by a random factor, sensitive attributes were shuffled between records, and the period was limited to **January 2024 – December 2025**. The figures do not represent any real company, and the source files are not included in this repository.
 
 ---
 
@@ -46,12 +46,16 @@ Power BI report that monitors **health and dental plan adoption, employee awards
 
 ## Data sources
 
+Original sources in production:
+
 | Source | Tables |
 |---|---|
 | Oracle data warehouse (HR schema) | Employees, jobs, benefits, leaves, job openings, hierarchy, schedules |
 | Power Platform Dataflows | Payroll events, cost centers, salary / job / cost center history, sectors |
 | SharePoint (Excel) | Salary structure (grades and ranges) |
 | Embedded tables (Enter Data) | Small lookups: union, employee status, contract type, age range, benefit plan category |
+
+**Portfolio version.** All 29 import queries now read the anonymized CSV files from a local folder defined by the `PastaBaseDados` parameter (Power Query `Csv.Document`, pt-BR culture). The original connection strings were removed from the project.
 
 ---
 
